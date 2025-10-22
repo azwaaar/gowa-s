@@ -1,15 +1,17 @@
+version: "3.8"
+
 services:
-  whatsapp_go:
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "200k"
-        max-file: "10"
-    build:
-      context: .
-      dockerfile: ./docker/golang.Dockerfile
-    restart: "on-failure"
+  gowa:
+    image: aldinokemal2104/go-whatsapp-web-multidevice:latest
+    container_name: gowa
+    restart: always
     ports:
       - "3000:3000"
-    env_file:
-      - src/.env
+    volumes:
+      - ./storages:/app/storages
+    environment:
+      - APP_PORT=3000
+      - APP_BASIC_AUTH=admin:admin   # ganti sesuai keinginan
+      - APP_DEBUG=true
+      - APP_ALLOWED_ORIGINS=*                # atau masukkan domain n8n spesifik
+    command: ["rest"]
